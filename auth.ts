@@ -13,15 +13,19 @@ declare module "next-auth" {
     }
 }
 export const { handlers, signIn, signOut, auth } = NextAuth({
-    callbacks: {
-        async signIn({ user }) {
-            const existingUser = await getUserById(user.id!);
-            if (!existingUser || !existingUser.emailVerified) {
-                return false;
-            }
-            return true;
+    pages: {
+        signIn: "/auth/login",
+        error: "/auth/error",
+    },
+    events: {
+        async linkAccount({ user }) {
+            await prisma.user.update({
+                where: { id: user.id },
+                data: { emailVerified: new Date() },
+            });
         },
-
+    },
+    callbacks: {
         async jwt({ token }) {
             if (!token.sub) return token;
             const existingUser = await getUserById(token.sub);

@@ -22,6 +22,7 @@ export default auth((req: NextAuthRequest) => {
     if (isApiAuthRoute) {
         return;
     }
+
     if (isAuthRoute) {
         if (isLoggedIn) {
             return NextResponse.rewrite(
