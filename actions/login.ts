@@ -1,9 +1,9 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { generateVerificationToken } from "@/data/token";
 import { getUserByEmail } from "@/data/user";
 import { sendVerificationEmail } from "@/lib/mail";
+import { generateVerificationToken } from "@/lib/tokens";
 import { DEFAUTL_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema } from "@/schemas";
 import { AuthError } from "next-auth";
