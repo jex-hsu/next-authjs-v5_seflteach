@@ -68,7 +68,7 @@ const RegisterForm = () => {
                                         <Input
                                             {...field}
                                             disabled={isPending}
-                                            placeholder="jerry"
+                                            placeholder="auth"
                                         />
                                     </FormControl>
                                     <FormMessage />
