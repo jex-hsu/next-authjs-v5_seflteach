@@ -4,8 +4,9 @@ import { login } from "@/actions/login";
 import { LoginSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
+import { Suspense, useState, useTransition } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { BeatLoader } from "react-spinners";
 import { z } from "zod";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-seccess";
@@ -20,7 +21,7 @@ import {
 import { Input } from "../ui/input";
 import { CardWrapper } from "./card-wrapper";
 
-const LoginForm = () => {
+const LoginFormContent = () => {
     const searchParams = useSearchParams();
     const urlError =
         searchParams.get("error") === "OAuthAccountNotLinked"
@@ -115,5 +116,11 @@ const LoginForm = () => {
         </CardWrapper>
     );
 };
+
+const LoginForm = () => (
+    <Suspense fallback={<BeatLoader />}>
+        <LoginFormContent />
+    </Suspense>
+);
 
 export default LoginForm;
