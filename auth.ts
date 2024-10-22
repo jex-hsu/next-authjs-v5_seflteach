@@ -10,6 +10,7 @@ declare module "next-auth" {
     interface Session {
         user: {
             role: UserRole;
+            isTwoFactorEnabled: boolean;
         } & DefaultSession["user"];
     }
 }
@@ -37,7 +38,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             // Prevent sign in without email verification
             if (!existingUser?.emailVerified) return false;
 
-            if (existingUser.isTwoFactorEnable) {
+            if (existingUser.isTwoFactorEnabled) {
                 const twoFactorConformation =
                     await getTwoFactorConfirmationByUserId(existingUser.id);
 
@@ -54,9 +55,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         async jwt({ token }) {
             if (!token.sub) return token;
+
             const existingUser = await getUserById(token.sub);
+
             if (!existingUser) return token;
+
             token.role = existingUser.role;
+            token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+
             return token;
         },
 
@@ -64,9 +70,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (token.sub && session.user) {
                 session.user.id = token.sub;
             }
+
             if (token.role && session.user) {
                 session.user.role = token.role as UserRole;
             }
+
+            if (session.user) {
+                session.user.isTwoFactorEnabled =
+                    token.isTwoFactorEnabled as boolean;
+            }
+
             return session;
         },
     },

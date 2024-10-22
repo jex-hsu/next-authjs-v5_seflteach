@@ -42,7 +42,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         return { success: "Confirmation email sent again!" };
     }
 
-    if (existingUser.isTwoFactorEnable && existingUser.email) {
+    if (existingUser.isTwoFactorEnabled && existingUser.email) {
         if (code) {
             const twoFactorToken = await getTwoFactorTokenByEmail(
                 existingUser.email,
