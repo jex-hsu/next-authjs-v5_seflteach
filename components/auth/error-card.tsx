@@ -12,16 +12,5 @@ export const ErrorCard = () => {
                 <ExclamationTriangleIcon className="text-destructive" />
             </div>
         </CardWrapper>
-        // <Card className="w-[400px] shadow-md">
-        //     <CardHeader>
-        //         <Header label="Oops! Something went wrong!" />
-        //     </CardHeader>
-        //     <CardFooter>
-        //         <BackButton
-        //             label="Back to login"
-        //             href="/auth/login"
-        //         ></BackButton>
-        //     </CardFooter>
-        // </Card>
     );
 };

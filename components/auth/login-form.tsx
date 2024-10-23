@@ -48,21 +48,23 @@ const LoginFormContent = () => {
         startTransition(() => {
             login(values)
                 .then((data) => {
-                    if (data.error) {
+                    if (data?.success) {
                         form.reset();
-                        setError(data?.error);
+                        setSuccess(data.success);
                     }
 
-                    if (data.success) {
+                    if (data?.error) {
                         form.reset();
-                        setSuccess(data?.success);
+                        setError(data.error);
                     }
 
-                    if (data.twoFactor) {
+                    if (data?.twoFactor) {
                         setShowTwoFactor(true);
                     }
                 })
-                .catch(() => setError("Something went wrong!"));
+                .catch(() => {
+                    setError("Something went wrong!");
+                });
         });
     };
 
