@@ -2,14 +2,17 @@
 
 import { DEFAUTL_LOGIN_REDIRECT } from "@/routes";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Button } from "../ui/button";
 
 export const Social = () => {
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get("callbackUrl");
     const onClick = async (provider: "google" | "github") => {
         await signIn(provider, {
-            callbackUrl: DEFAUTL_LOGIN_REDIRECT,
+            callbackUrl: callbackUrl || DEFAUTL_LOGIN_REDIRECT,
         });
     };
 

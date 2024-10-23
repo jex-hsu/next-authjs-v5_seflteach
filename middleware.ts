@@ -6,7 +6,6 @@ import {
     apiAuthPrefix,
     authRouters,
     DEFAUTL_LOGIN_REDIRECT,
-    LOGIN_PAGE,
     publicRoutes,
 } from "./routes";
 
@@ -33,7 +32,17 @@ export default auth((req: NextAuthRequest) => {
     }
 
     if (!isPublicRoute && !isLoggedIn) {
-        return NextResponse.rewrite(new URL(LOGIN_PAGE, nextUrl));
+        let callbackUrl = nextUrl.pathname;
+
+        if (nextUrl.search) {
+            callbackUrl += nextUrl.search;
+        }
+
+        const encodeCallbackUrl = encodeURIComponent(callbackUrl);
+
+        return NextResponse.redirect(
+            new URL(`/auth/login?callbackUrl=${encodeCallbackUrl}`, nextUrl),
+        );
     }
 
     return;

@@ -68,7 +68,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
             token.email = existingUser.email;
             token.role = existingUser.role;
             token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
-            token.isOauth = existingAccount;
+            token.isOauth = !!existingAccount;
 
             return token;
         },

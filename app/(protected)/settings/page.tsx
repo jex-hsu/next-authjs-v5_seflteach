@@ -95,7 +95,7 @@ const SettingsPage = () => {
                                     </FormItem>
                                 )}
                             />
-                            {!!user.isOauth === false && (
+                            {user.isOauth === false && (
                                 <>
                                     <FormField
                                         control={form.control}

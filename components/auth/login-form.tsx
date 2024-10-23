@@ -24,6 +24,7 @@ import { CardWrapper } from "./card-wrapper";
 
 const LoginFormContent = () => {
     const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get("callbackUrl");
     const urlError =
         searchParams.get("error") === "OAuthAccountNotLinked"
             ? "Email already in use with different provider!"
@@ -46,7 +47,7 @@ const LoginFormContent = () => {
         setSuccess("");
 
         startTransition(() => {
-            login(values)
+            login(values, callbackUrl)
                 .then((data) => {
                     if (data?.success) {
                         form.reset();
